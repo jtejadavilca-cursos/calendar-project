@@ -1,11 +1,6 @@
-# React + Vite
+# Proyecto para registrar eventos en el calendarios (Parte Front hecho con React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este proyecto fue desarrollado en el curso [React: De cero a experto](https://www.udemy.com/course/react-cero-experto) de Fernando Herrera. Contiene bootstrap css (CDN adicionado en el archivo `index.html`) además de otras diferentes librerías.
 
 # Dependencias instaladas:
 
@@ -13,6 +8,7 @@ Currently, two official plugins are available:
 -   [react-big-calendar](https://www.npmjs.com/package/react-big-calendar)
 -   [date-fns](https://www.npmjs.com/package/date-fns)
 -   [react-modal](https://www.npmjs.com/package/react-modal)
+-   [react-datepicker](https://www.npmjs.com/package/react-datepicker)
 
 # Material utilizado (Compartido en el [curso Reac: Cero a experto de F.H.](https://www.udemy.com/course/react-cero-experto)):
 
@@ -187,4 +183,56 @@ export const LoginScreen = () => {
     outline: none;
     padding: 10px;
 }
+```
+
+### [EventModal.js](https://gist.github.com/Klerith/8c9b2178830045b3f5126422bd0223e1#file-eventmodal-js)
+
+```js
+<h1> Nuevo evento </h1>
+<hr />
+<form className="container">
+
+    <div className="form-group mb-2">
+        <label>Fecha y hora inicio</label>
+        <input className="form-control" placeholder="Fecha inicio" />
+    </div>
+
+    <div className="form-group mb-2">
+        <label>Fecha y hora fin</label>
+        <input className="form-control" placeholder="Fecha inicio" />
+    </div>
+
+    <hr />
+    <div className="form-group mb-2">
+        <label>Titulo y notas</label>
+        <input
+            type="text"
+            className="form-control"
+            placeholder="Título del evento"
+            name="title"
+            autoComplete="off"
+        />
+        <small id="emailHelp" className="form-text text-muted">Una descripción corta</small>
+    </div>
+
+    <div className="form-group mb-2">
+        <textarea
+            type="text"
+            className="form-control"
+            placeholder="Notas"
+            rows="5"
+            name="notes"
+        ></textarea>
+        <small id="emailHelp" className="form-text text-muted">Información adicional</small>
+    </div>
+
+    <button
+        type="submit"
+        className="btn btn-outline-primary btn-block"
+    >
+        <i className="far fa-save"></i>
+        <span> Guardar</span>
+    </button>
+
+</form>
 ```
