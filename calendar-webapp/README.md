@@ -11,6 +11,7 @@ Este proyecto fue desarrollado en el curso [React: De cero a experto](https://ww
 -   [react-datepicker](https://www.npmjs.com/package/react-datepicker)
 -   [sweetalert2](https://www.npmjs.com/package/sweetalert2)
 -   [redux-toolkit](https://redux-toolkit.js.org)
+-   [react-redux](https://react-redux.js.org)
 
 # Material utilizado (Compartido en el [curso Reac: Cero a experto de F.H.](https://www.udemy.com/course/react-cero-experto)):
 
