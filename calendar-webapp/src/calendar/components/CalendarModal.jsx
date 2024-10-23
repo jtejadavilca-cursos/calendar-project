@@ -1,11 +1,15 @@
-import { addHours, differenceInSeconds } from "date-fns";
-import es from "date-fns/locale/es";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
-// Datepicker
-import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { validateEvent } from "../../helpers/calendarEventValidator";
+import DatePicker, { registerLocale } from "react-datepicker";
+
+import { addHours } from "date-fns";
+import es from "date-fns/locale/es";
+
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
+import { validateEvent } from "../../helpers";
 
 registerLocale("es", es);
 
@@ -25,12 +29,21 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [errors, setErrors] = useState([]);
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
     const [formValues, setFormValues] = useState({
         title: "Evento",
         notes: "",
         start: new Date(),
         end: addHours(new Date(), 2),
     });
+
+    useEffect(() => {
+        if (errors.length > 0) {
+            const errorList = errors.reduce((acc, error) => `${acc} <br /> ${error}`, "");
+            Swal.fire("Error", "<span class='text-danger'>" + errorList + "</span>", "error");
+        }
+    }, [errors]);
 
     const onInputChange = ({ target }) => {
         setFormValues({
@@ -52,6 +65,7 @@ export const CalendarModal = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setIsFormSubmitted(true);
 
         const validationErrors = validateEvent(formValues);
 
@@ -140,20 +154,10 @@ export const CalendarModal = () => {
                     </small>
                 </div>
 
-                <button type="submit" className="btn btn-outline-primary btn-block">
+                <button type="submit" className="btn btn-outline-primary col-12 mt-5">
                     <i className="far fa-save"></i>
-                    <span> Guardar</span>
+                    <span> Guardar </span>
                 </button>
-
-                {errors.length > 0 && (
-                    <div className="alert alert-danger mt-2 p-1" role="alert">
-                        {errors.map((error, i) => (
-                            <span key={i}>
-                                {"-"} {error} <br key={"l" + i} />
-                            </span>
-                        ))}
-                    </div>
-                )}
             </form>
         </Modal>
     );
