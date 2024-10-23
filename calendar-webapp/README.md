@@ -9,6 +9,7 @@ Este proyecto fue desarrollado en el curso [React: De cero a experto](https://ww
 -   [date-fns](https://www.npmjs.com/package/date-fns)
 -   [react-modal](https://www.npmjs.com/package/react-modal)
 -   [react-datepicker](https://www.npmjs.com/package/react-datepicker)
+-   [sweetalert2](https://www.npmjs.com/package/sweetalert2)
 
 # Material utilizado (Compartido en el [curso Reac: Cero a experto de F.H.](https://www.udemy.com/course/react-cero-experto)):
 
