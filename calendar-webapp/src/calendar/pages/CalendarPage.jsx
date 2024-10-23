@@ -7,9 +7,13 @@ import myEventsList from "./events";
 import { CalendarEvent, CalendarModal, Nabvar } from "../";
 import { getMessagesES, localizer } from "../../helpers";
 import { useState } from "react";
+import { useCalendarStore, useUiStore } from "../../hooks";
 
 export const CalendarPage = () => {
     const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "month");
+
+    const { openDateModal } = useUiStore();
+    const { events } = useCalendarStore();
 
     const eventStyleGetter = (event, start, end, isSelected) => {
         var backgroundColor = "#347CF7";
@@ -27,7 +31,7 @@ export const CalendarPage = () => {
     };
 
     const onDoubleClick = (e) => {
-        console.log("onDoubleClick", { doubleClick: e });
+        openDateModal();
     };
 
     const onSelectEvent = (e) => {
@@ -45,7 +49,7 @@ export const CalendarPage = () => {
             <Calendar
                 culture="es"
                 localizer={localizer}
-                events={myEventsList}
+                events={events}
                 defaultView={lastView}
                 startAccessor="start"
                 endAccessor="end"
@@ -58,6 +62,8 @@ export const CalendarPage = () => {
                 onSelectEvent={onSelectEvent}
                 onDoubleClickEvent={onDoubleClick}
                 onView={onViewChange}
+                // onSelectSlot={onDoubleClick}
+                // selectable
             />
 
             <CalendarModal />

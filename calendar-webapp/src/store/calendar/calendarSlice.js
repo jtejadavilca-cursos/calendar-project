@@ -1,12 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import events from "../../calendar/pages/events";
+
+const tempEvents = events;
+
 export const calendarSlice = createSlice({
     name: "calendar",
     initialState: {
-        currentEvent: null,
+        events: tempEvents,
+        activeEvent: null,
     },
     reducers: {
         createEvent: (state /* action */) => {
-            state.currentEvent = null;
+            state.activeEvent = null;
         },
     },
 });
