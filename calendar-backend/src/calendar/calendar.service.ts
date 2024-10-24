@@ -1,21 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 import { UpdateCalendarDto } from './dto/update-calendar.dto';
 
 @Injectable()
 export class CalendarService {
-  provider: string;
-
-  constructor(
-    @Inject(ConfigService)
-    private readonly configService: ConfigService,
-  ) {
-    this.provider = configService.get('PROVIDER_ID');
-  }
+  constructor() {}
 
   create(createCalendarDto: CreateCalendarDto) {
-    console.log(this.provider);
     return 'This action adds a new calendar';
   }
 
