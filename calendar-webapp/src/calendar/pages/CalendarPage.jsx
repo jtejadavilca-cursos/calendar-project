@@ -2,14 +2,13 @@ import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
-import myEventsList from "./events";
+import { addHours } from "date-fns";
 
 import { CalendarEvent, CalendarModal, Nabvar } from "../";
 import { getMessagesES, localizer } from "../../helpers";
 import { useEffect, useState } from "react";
 import { useCalendarStore, useUiStore } from "../../hooks";
-import { FavAddNew } from "../";
-import { addHours } from "date-fns";
+import { FabAddNew, FabDelete } from "../";
 
 export const CalendarPage = () => {
     const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "month");
@@ -96,8 +95,8 @@ export const CalendarPage = () => {
             />
 
             <CalendarModal />
-
-            <FavAddNew />
+            <FabDelete />
+            <FabAddNew />
         </>
     );
 };

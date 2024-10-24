@@ -40,15 +40,24 @@
 }
 
 .fab {
-    background-color: #347cf7;
     border: none;
     border-radius: 50%;
     color: white;
     cursor: pointer;
     font-size: 1.5rem;
     height: 50px;
+    width: 50px;
+}
+
+.fab-add {
+    background-color: #347cf7;
     position: fixed;
     right: 25px;
     bottom: 25px;
-    width: 50px;
+}
+
+.fab-delete {
+    position: fixed;
+    left: 25px;
+    bottom: 25px;
 }

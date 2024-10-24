@@ -22,6 +22,12 @@ export const calendarSlice = createSlice({
             console.log("onUpdateEvent", payload);
             state.events = state.events.map((event) => (event._id === payload._id ? payload : event));
         },
+        onDeleteEvent: (state, { payload }) => {
+            if (state.activeEvent && state.activeEvent._id) {
+                state.events = state.events.filter((event) => event._id !== payload);
+                state.activeEvent = null;
+            }
+        },
     },
 });
-export const { onAddNewEvent, onUpdateEvent, onSetActiveEvent } = calendarSlice.actions;
+export const { onAddNewEvent, onUpdateEvent, onDeleteEvent, onSetActiveEvent } = calendarSlice.actions;

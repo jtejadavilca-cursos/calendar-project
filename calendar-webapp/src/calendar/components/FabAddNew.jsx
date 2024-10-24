@@ -2,7 +2,7 @@ import React from "react";
 import { useCalendarStore, useUiStore } from "../../hooks";
 import { addHours } from "date-fns";
 
-export const FavAddNew = () => {
+export const FabAddNew = () => {
     const { selectActiveEvent } = useCalendarStore();
     const { openDateModal } = useUiStore();
 
@@ -17,7 +17,7 @@ export const FavAddNew = () => {
     };
 
     return (
-        <button className="btn btn-primary fab" onClick={onHandleClickNew}>
+        <button className="btn btn-primary fab fab-add" onClick={onHandleClickNew}>
             <i className="fas fa-plus"></i>
         </button>
     );
