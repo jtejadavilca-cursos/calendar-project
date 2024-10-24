@@ -6,14 +6,27 @@ import myEventsList from "./events";
 
 import { CalendarEvent, CalendarModal, Nabvar } from "../";
 import { getMessagesES, localizer } from "../../helpers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCalendarStore, useUiStore } from "../../hooks";
+import { FavAddNew } from "../";
+import { addHours } from "date-fns";
 
 export const CalendarPage = () => {
     const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "month");
 
     const { openDateModal } = useUiStore();
-    const { events } = useCalendarStore();
+    const { events, selectActiveEvent } = useCalendarStore();
+    const [formattedEvents, setFormattedEvents] = useState([]);
+
+    useEffect(() => {
+        setFormattedEvents(
+            events.map((e) => ({
+                ...e,
+                start: new Date(e.start),
+                end: new Date(e.end),
+            }))
+        );
+    }, [events]);
 
     const eventStyleGetter = (event, start, end, isSelected) => {
         var backgroundColor = "#347CF7";
@@ -35,12 +48,28 @@ export const CalendarPage = () => {
     };
 
     const onSelectEvent = (e) => {
-        console.log("onSelectEvent", { select: e });
+        selectActiveEvent({
+            ...e,
+            start: e.start.getTime(),
+            end: e.end.getTime(),
+        });
     };
 
     const onViewChange = (e) => {
-        console.log("onViewChange", { view: e });
         localStorage.setItem("lastView", e);
+        setLastView(e);
+    };
+    const onSelectSlot = (e) => {
+        const start = lastView == "month" ? addHours(e.start, 9).getTime() : e.start.getTime();
+        const end = lastView == "month" ? addHours(e.start, 10).getTime() : e.end.getTime();
+
+        selectActiveEvent({
+            title: "",
+            notes: "",
+            start,
+            end,
+        });
+        openDateModal();
     };
 
     return (
@@ -49,7 +78,7 @@ export const CalendarPage = () => {
             <Calendar
                 culture="es"
                 localizer={localizer}
-                events={events}
+                events={formattedEvents}
                 defaultView={lastView}
                 startAccessor="start"
                 endAccessor="end"
@@ -62,11 +91,13 @@ export const CalendarPage = () => {
                 onSelectEvent={onSelectEvent}
                 onDoubleClickEvent={onDoubleClick}
                 onView={onViewChange}
-                // onSelectSlot={onDoubleClick}
-                // selectable
+                onSelectSlot={onSelectSlot}
+                selectable
             />
 
             <CalendarModal />
+
+            <FavAddNew />
         </>
     );
 };

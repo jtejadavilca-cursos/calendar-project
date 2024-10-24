@@ -37,7 +37,6 @@ export const validateEvent = (formValues) => {
             errors.start.message = "Start date must be before end date.";
         }
     }
-    console.log("jtv", errors);
     return formatErrors(errors);
 };
 

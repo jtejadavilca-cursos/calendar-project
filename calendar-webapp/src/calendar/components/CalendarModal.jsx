@@ -9,7 +9,7 @@ import es from "date-fns/locale/es";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
-import { useUiStore } from "../../hooks";
+import { useCalendarStore, useUiStore } from "../../hooks";
 
 import { validateEvent } from "../../helpers";
 
@@ -30,16 +30,30 @@ Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
     const { isDateModalOpen, closeDateModal } = useUiStore();
-    //const [isModalOpen, setIsModalOpen] = useState(true);
+    const { activeEvent, startSavingEvent } = useCalendarStore();
+
+    const [modalTitle, setModalTitle] = useState("Nuevo evento");
+
     const [errors, setErrors] = useState([]);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
     const [formValues, setFormValues] = useState({
         title: "Evento",
         notes: "",
-        start: new Date(),
-        end: addHours(new Date(), 2),
+        start: new Date().getTime(),
+        end: new Date().getTime(),
     });
+
+    useEffect(() => {
+        if (activeEvent) {
+            setFormValues({
+                ...activeEvent,
+                start: new Date(activeEvent.start),
+                end: new Date(activeEvent.end),
+            });
+            setModalTitle(activeEvent._id ? "Editar evento" : "Nuevo evento");
+        }
+    }, [activeEvent]);
 
     useEffect(() => {
         if (errors.length > 0) {
@@ -68,6 +82,7 @@ export const CalendarModal = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
         setIsFormSubmitted(true);
 
         const validationErrors = validateEvent(formValues);
@@ -77,6 +92,15 @@ export const CalendarModal = () => {
             return;
         }
 
+        startSavingEvent({
+            ...formValues,
+            end: formValues.end.getTime(),
+            start: formValues.start.getTime(),
+            user: {
+                _id: "123",
+                name: "José",
+            },
+        });
         onCloseModal();
     };
 
@@ -89,7 +113,7 @@ export const CalendarModal = () => {
             overlayClassName="modal-fondo"
             closeTimeoutMS={200}
         >
-            <h1> Nuevo evento </h1>
+            <h1> {modalTitle} </h1>
             <hr />
             <form className="container" onSubmit={onSubmit}>
                 <div className="form-group mb-2">
