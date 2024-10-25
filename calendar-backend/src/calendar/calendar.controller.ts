@@ -1,34 +1,47 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CalendarService } from './calendar.service';
-import { CreateCalendarDto } from './dto/create-calendar.dto';
-import { UpdateCalendarDto } from './dto/update-calendar.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { CalendarService } from './service/calendar.service';
+import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
+import { EventDocument } from './entities/event.schema';
 
-@Controller('calendar')
+@Controller('calendar/events')
 export class CalendarController {
   constructor(private readonly calendarService: CalendarService) {}
 
   @Post()
-  create(@Body() createCalendarDto: CreateCalendarDto) {
-    return this.calendarService.create(createCalendarDto);
+  create(@Body() createEventDto: CreateEventDto): Promise<EventDocument> {
+    console.log('createEventDto', createEventDto);
+    return this.calendarService.createEvent(createEventDto);
   }
 
   @Get()
-  findAll() {
-    return this.calendarService.findAll();
+  findAll(): Promise<EventDocument[]> {
+    return this.calendarService.findAllEvents();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.calendarService.findOne(+id);
+  findOne(@Param('id') id: string): Promise<EventDocument> {
+    return this.calendarService.findOneEvent(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCalendarDto: UpdateCalendarDto) {
-    return this.calendarService.update(+id, updateCalendarDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateEventDto: UpdateEventDto,
+  ): Promise<EventDocument> {
+    return this.calendarService.updateEvent(id, updateEventDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.calendarService.remove(+id);
+  remove(@Param('id') id: string): Promise<EventDocument> {
+    return this.calendarService.removeEvent(id);
   }
 }
