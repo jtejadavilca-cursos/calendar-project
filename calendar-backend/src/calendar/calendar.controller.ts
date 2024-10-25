@@ -18,7 +18,6 @@ export class CalendarController {
 
   @Post()
   create(@Body() createEventDto: CreateEventDto): Promise<EventDocument> {
-    console.log('createEventDto', createEventDto);
     return this.calendarService.createEvent(createEventDto);
   }
 
