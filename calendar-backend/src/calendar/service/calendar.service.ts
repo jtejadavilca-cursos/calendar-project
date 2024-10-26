@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { UpdateEventDto } from '../dto/update-event.dto';
 import { EventRepository } from '../repository/event.repository';
-import { EventDocument } from '../entities/event.schema';
+import { EventDocument } from '../schema/event.schema';
 
 @Injectable()
 export class CalendarService {

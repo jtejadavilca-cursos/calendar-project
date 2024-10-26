@@ -10,7 +10,7 @@ import {
 import { CalendarService } from './service/calendar.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
-import { EventDocument } from './entities/event.schema';
+import { EventDocument } from './schema/event.schema';
 
 @Controller('calendar/events')
 export class CalendarController {
