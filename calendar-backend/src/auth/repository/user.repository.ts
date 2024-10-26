@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { UserDocument } from '../schema/user.schema';
 import { CreateUserDto } from '../dto/in/create-user.dto';
-import { ValidRoles } from './enum/valid_roles.enum';
+import { ValidRoles } from '../enum/valid_roles.enum';
 // import { UpdateUserDto } from '../dto/update-auth.dto';
 // import { getFieldsToUpdate } from 'src/utils/utils';
 

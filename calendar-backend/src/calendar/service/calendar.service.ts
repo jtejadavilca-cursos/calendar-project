@@ -3,6 +3,8 @@ import { CreateEventDto } from '../dto/create-event.dto';
 import { UpdateEventDto } from '../dto/update-event.dto';
 import { EventRepository } from '../repository/event.repository';
 import { EventDocument } from '../schema/event.schema';
+import { UserDocument } from 'src/auth/schema/user.schema';
+import { UserDto } from 'src/auth/dto/out/user.dto';
 
 @Injectable()
 export class CalendarService {
@@ -11,26 +13,41 @@ export class CalendarService {
     private readonly eventRepository: EventRepository,
   ) {}
 
-  createEvent(createEventDto: CreateEventDto): Promise<EventDocument> {
-    return this.eventRepository.create(createEventDto);
+  async createEvent(
+    createEventDto: CreateEventDto,
+    user: UserDto,
+  ): Promise<EventDocument> {
+    const userDB = new UserDocument();
+    userDB._id = user.id;
+
+    return this.eventRepository.create(createEventDto, userDB);
   }
 
-  findAllEvents(): Promise<EventDocument[]> {
-    return this.eventRepository.findAll();
+  async findAllEvents(user: UserDto): Promise<EventDocument[]> {
+    const userDB = new UserDocument();
+    userDB._id = user.id;
+    return this.eventRepository.findAll(userDB);
   }
 
-  findOneEvent(id: string): Promise<EventDocument> {
-    return this.eventRepository.findOne(id);
+  async findOneEvent(id: string, user: UserDto): Promise<EventDocument> {
+    const userDB = new UserDocument();
+    userDB._id = user.id;
+    return this.eventRepository.findOne(id, userDB);
   }
 
-  updateEvent(
+  async updateEvent(
     id: string,
     updateCalendarDto: UpdateEventDto,
+    user: UserDto,
   ): Promise<EventDocument> {
-    return this.eventRepository.update(id, updateCalendarDto);
+    const userDB = new UserDocument();
+    userDB._id = user.id;
+    return this.eventRepository.update(id, updateCalendarDto, userDB);
   }
 
-  removeEvent(id: string): Promise<EventDocument> {
-    return this.eventRepository.remove(id);
+  async removeEvent(id: string, user: UserDto): Promise<EventDocument> {
+    const userDB = new UserDocument();
+    userDB._id = user.id;
+    return this.eventRepository.remove(id, userDB);
   }
 }

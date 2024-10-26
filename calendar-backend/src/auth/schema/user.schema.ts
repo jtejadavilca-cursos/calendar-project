@@ -4,19 +4,19 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export class UserDocument {
   _id: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true, type: String })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   password: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   fullName: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   role: string;
 
-  @Prop({ default: true })
+  @Prop({ default: true, type: Boolean })
   enabled: boolean;
 
   @Prop()

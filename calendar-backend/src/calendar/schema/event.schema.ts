@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { SchemaTypes, Types, Document } from 'mongoose';
 
 @Schema({ collection: 'events', timestamps: true })
 export class EventDocument {
@@ -21,6 +22,9 @@ export class EventDocument {
 
   @Prop({ default: true })
   enabled: boolean;
+
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'User', required: true })
+  user: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(EventDocument);

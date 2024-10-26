@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { getFieldsToUpdate } from 'src/utils/utils';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { UpdateEventDto } from '../dto/update-event.dto';
+import { UserDocument } from 'src/auth/schema/user.schema';
 
 @Injectable()
 export class EventRepository {
@@ -14,30 +15,36 @@ export class EventRepository {
   ) {
     this.eventModel = eventModel;
   }
-  async create(createEventDto: CreateEventDto): Promise<EventDocument> {
-    const createdEvent = new this.eventModel({ ...createEventDto });
+  async create(
+    createEventDto: CreateEventDto,
+    user: UserDocument,
+  ): Promise<EventDocument> {
+    const createdEvent = new this.eventModel({ ...createEventDto, user });
     return createdEvent.save();
   }
-  async findAll(): Promise<EventDocument[]> {
-    return this.eventModel.find({ enabled: true });
+  async findAll(user: UserDocument): Promise<EventDocument[]> {
+    return this.eventModel.find({ user, enabled: true });
   }
 
-  async findOne(id: string): Promise<EventDocument> {
-    return this.eventModel.findById(id).exec();
+  async findOne(id: string, user: UserDocument): Promise<EventDocument> {
+    return this.eventModel.findOne({ id, user, enabled: true }).exec();
   }
 
   async update(
     id: string,
     updateEventDto: UpdateEventDto,
+    user: UserDocument,
   ): Promise<EventDocument> {
     const fieldsToUpdate = getFieldsToUpdate(updateEventDto);
     return this.eventModel
-      .findByIdAndUpdate(id, fieldsToUpdate, { new: true })
+      .findOneAndUpdate({ id, user, enabled: true }, fieldsToUpdate, {
+        new: true,
+      })
       .exec();
   }
-  async remove(id: string): Promise<EventDocument> {
-    const deletedEvent = await this.eventModel.findByIdAndUpdate(
-      id,
+  async remove(id: string, user: UserDocument): Promise<EventDocument> {
+    const deletedEvent = await this.eventModel.findOneAndUpdate(
+      { id, user, enabled: true },
       { enabled: false },
       { new: true },
     );
