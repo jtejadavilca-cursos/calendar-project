@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CalendarService } from './service/calendar.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -21,44 +23,72 @@ export class CalendarController {
 
   @Post()
   @Auth()
-  create(
+  async create(
     @Body() createEventDto: CreateEventDto,
     @GetUser() user: UserDto,
   ): Promise<GetEventDto> {
-    return this.calendarService.createEvent(createEventDto, user);
+    const eventCreated = await this.calendarService.createEvent(
+      createEventDto,
+      user,
+    );
+    if (eventCreated) {
+      return eventCreated;
+    }
+
+    throw new InternalServerErrorException('Error creating event');
   }
 
   @Get()
   @Auth()
-  findAll(@GetUser() user: UserDto): Promise<GetEventDto[]> {
+  async findAll(@GetUser() user: UserDto): Promise<GetEventDto[]> {
     return this.calendarService.findAllEvents(user);
   }
 
   @Get(':id')
   @Auth()
-  findOne(
+  async findOne(
     @Param('id') id: string,
     @GetUser() user: UserDto,
   ): Promise<GetEventDto> {
-    return this.calendarService.findOneEvent(id, user);
+    const event = await this.calendarService.findOneEvent(id, user);
+
+    if (event) {
+      return event;
+    }
+
+    throw new NotFoundException('Event not found');
   }
 
   @Patch(':id')
   @Auth()
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateEventDto: UpdateEventDto,
     @GetUser() user: UserDto,
   ): Promise<GetEventDto> {
-    return this.calendarService.updateEvent(id, updateEventDto, user);
+    const event = await this.calendarService.updateEvent(
+      id,
+      updateEventDto,
+      user,
+    );
+
+    if (event) {
+      return event;
+    }
+    throw new NotFoundException('Event not found');
   }
 
   @Delete(':id')
   @Auth()
-  remove(
+  async remove(
     @Param('id') id: string,
     @GetUser() user: UserDto,
   ): Promise<GetEventDto> {
-    return this.calendarService.removeEvent(id, user);
+    const event = await this.calendarService.removeEvent(id, user);
+
+    if (event) {
+      return event;
+    }
+    throw new NotFoundException('Event not found');
   }
 }

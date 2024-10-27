@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CalendarModule } from './calendar/calendar.module';
 import { AuthModule } from './auth/auth.module';
+import mongoose from 'mongoose';
 
 @Module({
   imports: [
@@ -16,4 +17,8 @@ import { AuthModule } from './auth/auth.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly configService: ConfigService) {
+    mongoose.set('debug', configService.get('MONGOOSE_DEBUG') === 'enabled');
+  }
+}

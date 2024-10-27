@@ -27,7 +27,7 @@ export class EventRepository {
   }
 
   async findOne(id: string, user: UserDocument): Promise<EventDocument> {
-    return this.eventModel.findOne({ id, user, enabled: true }).exec();
+    return this.eventModel.findOne({ _id: id, user, enabled: true }).exec();
   }
 
   async update(
@@ -37,14 +37,14 @@ export class EventRepository {
   ): Promise<EventDocument> {
     const fieldsToUpdate = getFieldsToUpdate(updateEventDto);
     return this.eventModel
-      .findOneAndUpdate({ id, user, enabled: true }, fieldsToUpdate, {
+      .findOneAndUpdate({ _id: id, user, enabled: true }, fieldsToUpdate, {
         new: true,
       })
       .exec();
   }
   async remove(id: string, user: UserDocument): Promise<EventDocument> {
     const deletedEvent = await this.eventModel.findOneAndUpdate(
-      { id, user, enabled: true },
+      { _id: id, user: user._id.toString(), enabled: true },
       { enabled: false },
       { new: true },
     );

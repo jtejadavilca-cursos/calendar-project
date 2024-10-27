@@ -23,7 +23,7 @@ export class CalendarService {
 
     const eventDB = await this.eventRepository.create(createEventDto, userDB);
 
-    return EventMapper.toDto(eventDB);
+    return eventDB ? EventMapper.toDto(eventDB) : null;
   }
 
   async findAllEvents(user: UserDto): Promise<GetEventDto[]> {
@@ -41,7 +41,7 @@ export class CalendarService {
 
     const eventDB = await this.eventRepository.findOne(id, userDB);
 
-    return EventMapper.toDto(eventDB);
+    return eventDB ? EventMapper.toDto(eventDB) : null;
   }
 
   async updateEvent(
@@ -57,14 +57,16 @@ export class CalendarService {
       userDB,
     );
 
-    return EventMapper.toDto(eventDB);
+    return eventDB ? EventMapper.toDto(eventDB) : null;
   }
 
   async removeEvent(id: string, user: UserDto): Promise<GetEventDto> {
+    console.log({ id, user });
+
     const userDB = new UserDocument();
     userDB._id = user.id;
     const eventDB = await this.eventRepository.remove(id, userDB);
 
-    return EventMapper.toDto(eventDB);
+    return eventDB ? EventMapper.toDto(eventDB) : null;
   }
 }
