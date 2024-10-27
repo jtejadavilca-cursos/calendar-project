@@ -10,10 +10,10 @@ import {
 import { CalendarService } from './service/calendar.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
-import { EventDocument } from './schema/event.schema';
 import { Auth } from 'src/auth/decorator/auth.decorator';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { UserDto } from 'src/auth/dto/out/user.dto';
+import { GetEventDto } from './dto/get-event.dto';
 
 @Controller('calendar/events')
 export class CalendarController {
@@ -24,13 +24,13 @@ export class CalendarController {
   create(
     @Body() createEventDto: CreateEventDto,
     @GetUser() user: UserDto,
-  ): Promise<EventDocument> {
+  ): Promise<GetEventDto> {
     return this.calendarService.createEvent(createEventDto, user);
   }
 
   @Get()
   @Auth()
-  findAll(@GetUser() user: UserDto): Promise<EventDocument[]> {
+  findAll(@GetUser() user: UserDto): Promise<GetEventDto[]> {
     return this.calendarService.findAllEvents(user);
   }
 
@@ -39,7 +39,7 @@ export class CalendarController {
   findOne(
     @Param('id') id: string,
     @GetUser() user: UserDto,
-  ): Promise<EventDocument> {
+  ): Promise<GetEventDto> {
     return this.calendarService.findOneEvent(id, user);
   }
 
@@ -49,7 +49,7 @@ export class CalendarController {
     @Param('id') id: string,
     @Body() updateEventDto: UpdateEventDto,
     @GetUser() user: UserDto,
-  ): Promise<EventDocument> {
+  ): Promise<GetEventDto> {
     return this.calendarService.updateEvent(id, updateEventDto, user);
   }
 
@@ -58,7 +58,7 @@ export class CalendarController {
   remove(
     @Param('id') id: string,
     @GetUser() user: UserDto,
-  ): Promise<EventDocument> {
+  ): Promise<GetEventDto> {
     return this.calendarService.removeEvent(id, user);
   }
 }
