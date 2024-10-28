@@ -3,7 +3,6 @@ import { EventDocument } from '../../schema/event.schema';
 import { GetEventDto } from '../get-event.dto';
 export class EventMapper {
   static toDto(event: EventDocument): GetEventDto {
-    console.log(event);
     return new GetEventDto(
       event._id,
       event.title,

@@ -61,8 +61,6 @@ export class CalendarService {
   }
 
   async removeEvent(id: string, user: UserDto): Promise<GetEventDto> {
-    console.log({ id, user });
-
     const userDB = new UserDocument();
     userDB._id = user.id;
     const eventDB = await this.eventRepository.remove(id, userDB);
