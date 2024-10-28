@@ -1,3 +1,5 @@
+import { UserDto } from 'src/auth/dto/out/user.dto';
+
 export class GetEventDto {
   constructor(
     public id: string,
@@ -5,6 +7,6 @@ export class GetEventDto {
     public notes: string,
     public start: Date,
     public end: Date,
-    public userId: string,
+    public user: UserDto,
   ) {}
 }

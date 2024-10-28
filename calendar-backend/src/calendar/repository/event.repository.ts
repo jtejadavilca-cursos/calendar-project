@@ -23,11 +23,17 @@ export class EventRepository {
     return createdEvent.save();
   }
   async findAll(user: UserDocument): Promise<EventDocument[]> {
-    return this.eventModel.find({ user, enabled: true });
+    return this.eventModel
+      .find({ user, enabled: true })
+      .populate('user', 'fullName')
+      .exec();
   }
 
   async findOne(id: string, user: UserDocument): Promise<EventDocument> {
-    return this.eventModel.findOne({ _id: id, user, enabled: true }).exec();
+    return this.eventModel
+      .findOne({ _id: id, user, enabled: true })
+      .populate('user', 'fullName')
+      .exec();
   }
 
   async update(
@@ -40,14 +46,18 @@ export class EventRepository {
       .findOneAndUpdate({ _id: id, user, enabled: true }, fieldsToUpdate, {
         new: true,
       })
+      .populate('user', 'fullName')
       .exec();
   }
   async remove(id: string, user: UserDocument): Promise<EventDocument> {
-    const deletedEvent = await this.eventModel.findOneAndUpdate(
-      { _id: id, user: user._id.toString(), enabled: true },
-      { enabled: false },
-      { new: true },
-    );
+    const deletedEvent = await this.eventModel
+      .findOneAndUpdate(
+        { _id: id, user: user._id.toString(), enabled: true },
+        { enabled: false },
+        { new: true },
+      )
+      .populate('user', 'fullName')
+      .exec();
 
     return deletedEvent;
   }
