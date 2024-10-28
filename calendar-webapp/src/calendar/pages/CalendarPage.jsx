@@ -7,14 +7,15 @@ import { addHours } from "date-fns";
 import { CalendarEvent, CalendarModal, Nabvar } from "../";
 import { getMessagesES, localizer } from "../../helpers";
 import { useEffect, useState } from "react";
-import { useCalendarStore, useUiStore } from "../../hooks";
+import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
 import { FabAddNew, FabDelete } from "../";
 
 export const CalendarPage = () => {
     const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "month");
 
     const { openDateModal } = useUiStore();
-    const { events, selectActiveEvent } = useCalendarStore();
+    const { events, startLoadingEvents, selectActiveEvent } = useCalendarStore();
+    const { status } = useAuthStore();
     const [formattedEvents, setFormattedEvents] = useState([]);
 
     useEffect(() => {
@@ -70,6 +71,12 @@ export const CalendarPage = () => {
         });
         openDateModal();
     };
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            startLoadingEvents();
+        }
+    }, [status]);
 
     return (
         <>

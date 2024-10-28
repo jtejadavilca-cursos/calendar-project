@@ -15,7 +15,7 @@ export const FabDelete = () => {
             confirmButtonText: "Sí, eliminar",
         }).then((result) => {
             if (result.isConfirmed) {
-                startDeletingEvent(activeEvent._id);
+                startDeletingEvent(activeEvent.id);
                 Swal.fire("Eliminado", "El evento ha sido eliminado", "success");
             }
         });
@@ -23,7 +23,7 @@ export const FabDelete = () => {
 
     return (
         activeEvent &&
-        activeEvent._id && (
+        activeEvent.id && (
             <button className="btn btn-danger fab fab-delete" onClick={onHandleClickDelete}>
                 <i className="fas fa-trash"></i>
             </button>

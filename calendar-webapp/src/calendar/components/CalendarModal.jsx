@@ -51,7 +51,7 @@ export const CalendarModal = () => {
                 start: new Date(activeEvent.start),
                 end: new Date(activeEvent.end),
             });
-            setModalTitle(activeEvent._id ? "Editar evento" : "Nuevo evento");
+            setModalTitle(activeEvent.id ? "Editar evento" : "Nuevo evento");
         }
     }, [activeEvent]);
 

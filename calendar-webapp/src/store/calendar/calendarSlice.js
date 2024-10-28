@@ -1,33 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
-import events from "../../calendar/pages/events";
-
-const tempEvents = events;
 
 export const calendarSlice = createSlice({
     name: "calendar",
     initialState: {
-        events: tempEvents,
+        isLoadingEvents: true,
+        events: [],
         activeEvent: null,
     },
     reducers: {
+        onLoadEvents: (state, { payload }) => {
+            state.isLoadingEvents = false;
+            // state.events = payload;
+            payload.forEach((event) => {
+                const exists = state.events.some((dbEvent) => dbEvent.id === event.id);
+                if (!exists) {
+                    state.events.push(event);
+                }
+            });
+        },
         onSetActiveEvent: (state, { payload }) => {
             state.activeEvent = payload;
         },
         onAddNewEvent: (state, { payload }) => {
-            console.log("onAddNewEvent", payload);
             state.events.push(payload);
             state.activeEvent = null;
         },
         onUpdateEvent: (state, { payload }) => {
-            console.log("onUpdateEvent", payload);
-            state.events = state.events.map((event) => (event._id === payload._id ? payload : event));
+            state.events = state.events.map((event) => (event.id === payload.id ? payload : event));
         },
         onDeleteEvent: (state, { payload }) => {
-            if (state.activeEvent && state.activeEvent._id) {
-                state.events = state.events.filter((event) => event._id !== payload);
+            if (state.activeEvent && state.activeEvent.id) {
+                state.events = state.events.filter((event) => event.id !== payload);
                 state.activeEvent = null;
             }
         },
     },
 });
-export const { onAddNewEvent, onUpdateEvent, onDeleteEvent, onSetActiveEvent } = calendarSlice.actions;
+export const { onLoadEvents, onAddNewEvent, onUpdateEvent, onDeleteEvent, onSetActiveEvent } = calendarSlice.actions;
