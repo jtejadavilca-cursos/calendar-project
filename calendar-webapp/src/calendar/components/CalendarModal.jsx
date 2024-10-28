@@ -9,7 +9,7 @@ import es from "date-fns/locale/es";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
-import { useCalendarStore, useUiStore } from "../../hooks";
+import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
 
 import { validateEvent } from "../../helpers";
 
@@ -31,6 +31,7 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
     const { isDateModalOpen, closeDateModal } = useUiStore();
     const { activeEvent, startSavingEvent } = useCalendarStore();
+    const { user } = useAuthStore();
 
     const [modalTitle, setModalTitle] = useState("Nuevo evento");
 
@@ -96,10 +97,7 @@ export const CalendarModal = () => {
             ...formValues,
             end: formValues.end.getTime(),
             start: formValues.start.getTime(),
-            user: {
-                _id: "123",
-                name: "José",
-            },
+            user,
         });
         onCloseModal();
     };

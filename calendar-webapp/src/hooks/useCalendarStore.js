@@ -13,11 +13,14 @@ export const useCalendarStore = () => {
     };
 
     const startDeletingEvent = async (eventId) => {
+        await calendarApi.delete(`/calendar/events/${eventId}`);
         dispatch(onDeleteEvent(eventId));
     };
 
     const startSavingEvent = async (calendarEvent) => {
         if (calendarEvent.id) {
+            const { user, ...updatedEvent } = calendarEvent;
+            await calendarApi.patch(`/calendar/events/${calendarEvent.id}`, updatedEvent);
             dispatch(onUpdateEvent({ ...calendarEvent })); // update event
         } else {
             const { id } = (await calendarApi.post("/calendar/events", calendarEvent)).data;
