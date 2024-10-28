@@ -6,6 +6,8 @@ import { CreateUserDto } from './dto/in/create-user.dto';
 import { LoginDto } from './dto/in/login.dto';
 import { AuthResponse } from './dto/out/auth.response';
 import { UserDto } from './dto/out/user.dto';
+import { Auth } from './decorator/auth.decorator';
+import { GetUser } from './decorator/get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -31,6 +33,15 @@ export class AuthController {
       return this.buildToken(user);
     }
     throw new UnauthorizedException('Wrong credentials');
+  }
+
+  @Auth()
+  @Post('renew')
+  async refreshToken(@GetUser() user: UserDto): Promise<AuthResponse> {
+    if (user) {
+      return this.buildToken(user);
+    }
+    throw new UnauthorizedException('User not authenticated');
   }
 
   private buildToken(userDto: UserDto): AuthResponse {
