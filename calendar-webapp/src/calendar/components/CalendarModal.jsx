@@ -11,7 +11,7 @@ import "sweetalert2/dist/sweetalert2.css";
 
 import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
 
-import { validateEvent } from "../../helpers";
+import { validateEvent, getEnvVariables } from "../../helpers";
 
 registerLocale("es", es);
 
@@ -26,7 +26,9 @@ const customStyles = {
     },
 };
 
-Modal.setAppElement("#root");
+if (getEnvVariables().VITE_MODE !== "test") {
+    Modal.setAppElement("#root");
+}
 
 export const CalendarModal = () => {
     const { isDateModalOpen, closeDateModal } = useUiStore();

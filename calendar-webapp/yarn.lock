@@ -1915,6 +1915,7 @@ buffer-from@^1.0.0:
     axios "^1.7.7"
     calendar "file:"
     date-fns "^4.1.0"
+    dotenv "^16.4.5"
     react "^18.3.1"
     react-big-calendar "^1.15.0"
     react-datepicker "^7.5.0"
@@ -2234,6 +2235,11 @@ domexception@^4.0.0:
   integrity sha512-A2is4PLG+eeSfoTMA95/s4pvAoSo2mKtiM5jlHkAVewmiO8ISFTFKZjH7UAM1Atli/OT/7JHOrJRJiMKUZKYBw==
   dependencies:
     webidl-conversions "^7.0.0"
+
+dotenv@^16.4.5:
+  version "16.4.5"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.4.5.tgz"
+  integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
 
 electron-to-chromium@^1.5.28:
   version "1.5.41"
