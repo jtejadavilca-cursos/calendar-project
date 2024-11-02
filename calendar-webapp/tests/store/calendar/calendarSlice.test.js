@@ -2,6 +2,10 @@ import { calendarSlice } from "../../../src/store/calendar/calendarSlice";
 import { calendarFixture } from "../../fixtures";
 
 describe("calendarSlice", () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     test("test initial state", () => {
         const state = calendarSlice.getInitialState();
         expect(state).toEqual(calendarFixture.initialState);

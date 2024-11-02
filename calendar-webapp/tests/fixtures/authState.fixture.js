@@ -24,12 +24,12 @@ export const authFixture = {
 
     wrongCredentials: {
         status: "not-authenticated",
-        errorMessage: "Wrong credentials",
+        errorMessage: "Credenciales incorrectas",
         user: {},
     },
 
-    setErrorMessage: {
-        errorMessage: "Error message",
+    setErrorMessageOnregister: {
+        errorMessage: "Error al registrar",
     },
 
     clearError: {

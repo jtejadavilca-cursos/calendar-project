@@ -37,6 +37,7 @@ export const calendarSlice = createSlice({
         onClearCalendar: (state) => {
             state.events = [];
             state.activeEvent = null;
+            state.isLoadingEvents = false;
         },
     },
 });
