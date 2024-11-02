@@ -1,5 +1,5 @@
 import { calendarSlice } from "../../../src/store/calendar/calendarSlice";
-import { calendarFixture } from "../../fixtures/calendarState.fixture";
+import { calendarFixture } from "../../fixtures";
 
 describe("calendarSlice", () => {
     test("test initial state", () => {

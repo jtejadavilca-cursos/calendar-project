@@ -1,5 +1,5 @@
 import { authSlice } from "../../../src/store/auth/authSlice";
-import { authFixture } from "../../fixtures/authState.fixture";
+import { authFixture } from "../../fixtures";
 
 describe("authSlice", () => {
     test("test initial state", () => {
