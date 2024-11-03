@@ -24,7 +24,7 @@ export const FabDelete = () => {
     return (
         activeEvent &&
         activeEvent.id && (
-            <button className="btn btn-danger fab fab-delete" onClick={onHandleClickDelete}>
+            <button aria-label="btn-delete" className="btn btn-danger fab fab-delete" onClick={onHandleClickDelete}>
                 <i className="fas fa-trash"></i>
             </button>
         )
